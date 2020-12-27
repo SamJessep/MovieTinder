@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MovieTinderDemo.MainPage">
+
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <Label Text="MOVIE TITLE" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+
+        <Label x:Name="countLbl"  Text="Swipe: 0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="20"/>
+        <BoxView Color="Teal" x:Name="card" HeightRequest="400" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="0">
+            <BoxView.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+    </StackLayout>
+
+</ContentPage>
