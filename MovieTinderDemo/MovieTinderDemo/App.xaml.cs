@@ -11,8 +11,8 @@ namespace MovieTinderDemo
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new GenreSelect());
+            //MainPage = new MainPage();
         }
 
         protected override void OnStart()
@@ -25,11 +25,6 @@ namespace MovieTinderDemo
 
         protected override void OnResume()
         {
-        }
-
-        void OnSwipe()
-        {
-
         }
     }
 }

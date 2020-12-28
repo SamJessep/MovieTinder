@@ -3,20 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MovieTinderDemo.MainPage">
 
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="MOVIE TITLE" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
+    <RelativeLayout Margin="0">
+        <Label x:Name="countLbl"  Text="Swipe: 0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="20"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0}"
+               RelativeLayout.YConstraint="0"
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+               RelativeLayout.HeightConstraint="100"/>
 
-        <Label x:Name="countLbl"  Text="Swipe: 0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="20"/>
-        <BoxView Color="Teal" x:Name="card" HeightRequest="400" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="0">
-            <BoxView.GestureRecognizers>
+        <Image Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg"
+               x:Name="card"
+               BackgroundColor="Black"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.15}"
+               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.2}"
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.7}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.6}"
+        >
+            <Image.GestureRecognizers>
                 <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped"/>
                 <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped"/>
                 <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped"/>
                 <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped"/>
-            </BoxView.GestureRecognizers>
-        </BoxView>
-    </StackLayout>
+            </Image.GestureRecognizers>
 
+        </Image>
+        <Label 
+            x:Name="title"
+            Text="TITLE"
+            TextColor="Black"
+            FontSize="40"
+            Padding="10"
+            HorizontalTextAlignment="Center"
+            
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView, ElementName=card, Property=Height, Constant=140}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5}"
+        />
+    </RelativeLayout>
 </ContentPage>

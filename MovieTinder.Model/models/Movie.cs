@@ -19,5 +19,8 @@ namespace MovieTinder.Model.models
         public bool video;
         public float vote_average;
         public float vote_count;
+
+        public string PosterURL => $"https://image.tmdb.org/t/p/original/{poster_path}";
     }
+
 }

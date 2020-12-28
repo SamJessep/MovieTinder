@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace MovieTinder.Model
 {
@@ -17,33 +18,36 @@ namespace MovieTinder.Model
 
         private static List<Genre> SelectedGenres = new List<Genre>();
 
-        public static Movie Start(List<Genre> genres)
+        private static Dictionary<int, int> SeenGenres = new Dictionary<int, int>();
+
+        public static async Task<Movie> StartAsync(List<Genre> genres)
         {
             SelectedGenres = genres;
-            return SelectOne(GenreSearch<Movie>(genres).results);
+            var genreSearchResults = await GenreSearchAsync<Movie>(genres);
+            return SelectOne(genreSearchResults.results);
         }
 
-        public static Result<T> GenreSearch<T>(List<Genre> genres, int Page, bool IncludeAdult)
+        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres, int Page, bool IncludeAdult)
         {
             var include_genres = string.Join(",", genres.Select(genre=>genre.id));
             var ApiClient = new RequestHelper(BASE_URL);
-            var result = ApiClient.Get($"/discover/{GetMediaString<T>()}?api_key={API_KEY}&language={Language}&include_adult={IncludeAdult}&page={Page}&with_genres={include_genres}");
+            var result = await ApiClient.Get($"/discover/{GetMediaString<T>()}?api_key={API_KEY}&language={Language}&include_adult={IncludeAdult}&page={Page}&with_genres={include_genres}");
             return Parse<Result<T>>(result.Content);
         }
 
-        public static Result<T> GenreSearch<T>(List<Genre> genres) => GenreSearch<T>(genres, 1, false);
+        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres) => await GenreSearchAsync<T>(genres, 1, false);
 
-        public static Result<T> GetSimilar<T>(int movieID)
+        public static async Task<Result<T>> GetSimilarAsync<T>(int movieID)
         {
             var ApiClient = new RequestHelper(BASE_URL);
-            var result = ApiClient.Get($"/{GetMediaString<T>()}/{movieID}/similar?api_key={API_KEY}");
+            var result = await ApiClient.Get($"/{GetMediaString<T>()}/{movieID}/similar?api_key={API_KEY}");
             return Parse<Result<T>>(result.Content);
         }
 
-        public static GenreResult GetGenres()
+        public static async Task<GenreResult> GetGenresAsync()
         {
             var ApiClient = new RequestHelper(BASE_URL);
-            var result = ApiClient.Get($"/genre/movie/list?api_key={API_KEY}");
+            var result = await ApiClient.Get($"/genre/movie/list?api_key={API_KEY}");
             
             return Parse<GenreResult>(result.Content);
         }
@@ -56,12 +60,27 @@ namespace MovieTinder.Model
 
         public static bool HasSeen(Movie movie)
         {
-            return MoviesSeen.IndexOf(movie) != -1;
+            return MoviesSeen.FirstOrDefault(seen => seen.title == movie.title) != null;
         }
 
         public static void AddMovie(Movie movie)
         {
             MoviesSeen.Add(movie);
+            foreach(var genre in movie.genre_ids)
+            {
+                SeenGenres[genre] = SeenGenres.ContainsKey(genre) ? SeenGenres[genre] + 1 : 1;
+            }
+        }
+
+        public static int GetMostCommonGenreID()
+        {
+            int highestID = 0;
+            var highest = 0;
+            foreach(KeyValuePair<int,int> genre in SeenGenres)
+            {
+                if (genre.Value > highest) highestID = genre.Key;
+            }
+            return highestID;
         }
 
         public static void ClearSeen()
@@ -81,28 +100,28 @@ namespace MovieTinder.Model
             return null;
         }
 
-        private static Movie Like(int page)
+        private static async Task<Movie> LikeAsync(int page)
         {
-            var similar = GetSimilar<Movie>(MoviesSeen[MoviesSeen.Count - 1].id);
+            var similar = await GetSimilarAsync<Movie>(MoviesSeen[MoviesSeen.Count - 1].id);
             var foundMovie = SelectOne(similar.results);
             if (foundMovie != null) return foundMovie;
             if(similar.page < similar.total_pages)
             {
-                Like(similar.page + 1);
+                LikeAsync(similar.page + 1);
             }
             return null;
         }
 
-        public static Movie Like()
+        public static async Task<Movie> LikeAsync()
         {
-            return Like(1);
+            return await LikeAsync(1);
         }
 
-        public static Movie Dislike()
+        public static async Task<Movie> DislikeAsync()
         {
             var result = MoviesSeen.Count - 1 > 0 ?
-                GetSimilar<Movie>(MoviesSeen[MoviesSeen.Count - 1].id) :
-                GenreSearch<Movie>(SelectedGenres);
+                await GetSimilarAsync<Movie>(MoviesSeen[MoviesSeen.Count - 1].id) :
+                await GenreSearchAsync<Movie>(SelectedGenres);
             var foundMovie = SelectOne(result.results);
             return foundMovie;
         }

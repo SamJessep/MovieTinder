@@ -3,6 +3,8 @@ using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MovieTinder.Model
 {
@@ -14,10 +16,12 @@ namespace MovieTinder.Model
             client = new RestClient(baseURL);
         }
 
-        public IRestResponse Get(string endPointPath)
+        public async Task<IRestResponse> Get(string endPointPath)
         {
             var request = new RestRequest(endPointPath, DataFormat.Json);
-            var response = client.Get(request);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var response =
+                await client.ExecuteAsync(request, cancellationTokenSource.Token);
             return response;
         }
 

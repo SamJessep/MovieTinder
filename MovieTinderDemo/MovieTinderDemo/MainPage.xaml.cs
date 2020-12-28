@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MovieTinder.Model;
+using MovieTinder.Model.models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -12,9 +14,29 @@ namespace MovieTinderDemo
     public partial class MainPage : ContentPage
     {
         private int count = 0;
+        private List<Genre> selectedGenres;
+        public MainPage(List<Genre> genres)
+        {
+            selectedGenres = genres;
+            InitializeComponent();
+            Start();
+        }
         public MainPage()
         {
             InitializeComponent();
+            Start();
+        }
+
+        private async Task Start()
+        {
+            var firstMovie = await MovieApi.StartAsync(selectedGenres);
+            ShowMovie(firstMovie);
+        }
+
+        void ShowMovie(Movie movie)
+        {
+            card.Source = movie.PosterURL;
+            title.Text = movie.title;
         }
 
         void OnSwiped(object sender, SwipedEventArgs e)
@@ -26,28 +48,42 @@ namespace MovieTinderDemo
                 case SwipeDirection.Left:
                     // Handle the swipe
                     Debug.WriteLine("SWIPED Left");
-                    card.Color = Color.Red;
-                    SwipeSideAnimateAsync(-1);
+                    SwipeLeft();
                     break;
                 case SwipeDirection.Right:
                     // Handle the swipe
                     Debug.WriteLine("SWIPED Right");
-                    card.Color = Color.Green;
-                    SwipeSideAnimateAsync(1);
+                    SwipeRight();
                     break;
                 case SwipeDirection.Up:
                     // Handle the swipe
-                    card.Color = Color.Yellow;
+                    card.BackgroundColor = Color.Yellow;
                     Debug.WriteLine("SWIPED up");
                     SwipeUpAnimateAsync();
                     break;
                 case SwipeDirection.Down:
                     // Handle the swipe
-                    card.Color = Color.Purple;
+                    card.BackgroundColor = Color.Purple;
                     Debug.WriteLine("SWIPED Down");
                     SwipeDownAnimateAsync();
                     break;
             }
+        }
+
+        async Task SwipeLeft()
+        {
+            var movie = await MovieApi.DislikeAsync();
+            card.BackgroundColor = Color.Red;
+            SwipeSideAnimateAsync(-1);
+            ShowMovie(movie);
+        }
+
+        async Task SwipeRight()
+        {
+            var movie = await MovieApi.DislikeAsync();
+            card.BackgroundColor = Color.Green;
+            SwipeSideAnimateAsync(1);
+            ShowMovie(movie);
         }
 
         async Task SwipeSideAnimateAsync(int dir)
@@ -57,12 +93,8 @@ namespace MovieTinderDemo
             card.Rotation = 0;
             await card.ScaleTo(0,100);
             await card.TranslateTo(0, 0, 100);
-            card.Color = Color.Teal;
+            card.BackgroundColor = Color.Teal;
             await card.ScaleTo(1);
-            //await card.TranslateTo(500, -500);
-            //await card.TranslateTo(0, -500);
-            //await card.TranslateTo(0, 0);
-
         }
 
         async Task SwipeUpAnimateAsync()

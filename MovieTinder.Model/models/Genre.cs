@@ -6,7 +6,12 @@ namespace MovieTinder.Model.models
 {
     public class Genre
     {
-        public int id;
-        public string name;
+        public int id { get; set; }
+        public string name { get; set; }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }
