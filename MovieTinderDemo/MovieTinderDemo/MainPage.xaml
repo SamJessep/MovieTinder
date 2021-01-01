@@ -4,59 +4,42 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <RelativeLayout Margin="0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
         <Label
             x:Name="countLbl"
             FontSize="20"
             HorizontalTextAlignment="Center"
-            RelativeLayout.HeightConstraint="100"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                  Property=Width,
-                                                                  Factor=1}"
-            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                              Property=Width,
-                                                              Factor=0}"
-            RelativeLayout.YConstraint="0"
             Text="Swipe: 0"
             TextColor="Black" />
 
-        <Image
-            x:Name="card"
-            BackgroundColor="Transparent"
-            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                   Property=Height,
-                                                                   Factor=0.6}"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                  Property=Width,
-                                                                  Factor=0.7}"
-            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                              Property=Width,
-                                                              Factor=0.15}"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                              Property=Height,
-                                                              Factor=0.2}"
-            Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg">
-            <Image.GestureRecognizers>
-                <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
-                <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
-                <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
-                <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
-            </Image.GestureRecognizers>
+        <Frame x:Name="card" Grid.Row="1">
+            <Image
+                x:Name="Poster"
+                Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg"
+                VerticalOptions="CenterAndExpand">
+                <Image.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+                    <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+                    <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
+                    <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
+                </Image.GestureRecognizers>
 
-        </Image>
+            </Image>
+        </Frame>
+
         <Label
-            x:Name="title"
+            x:Name="Title"
+            Grid.Row="2"
             Padding="10"
             FontSize="40"
             HorizontalTextAlignment="Center"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                  Property=Height,
-                                                                  Factor=0.5}"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
-                                                              ElementName=card,
-                                                              Property=Height,
-                                                              Constant=140}"
             Text="TITLE"
-            TextColor="Black" />
-    </RelativeLayout>
+            TextColor="Black"
+            VerticalTextAlignment="Center" />
+    </Grid>
 </ContentPage>
