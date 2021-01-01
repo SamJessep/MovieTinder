@@ -22,7 +22,7 @@
 
         <Image
             x:Name="card"
-            BackgroundColor="Black"
+            BackgroundColor="Transparent"
             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
                                                                    Property=Height,
                                                                    Factor=0.6}"

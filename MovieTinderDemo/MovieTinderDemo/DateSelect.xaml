@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MovieTinder.DateSelect"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MovieTinder"
+    Title="Release Date Select">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="ExplainationLabel"
+                Grid.ColumnSpan="4"
+                Padding="15"
+                FontSize="20"
+                Text="Select a release date range and click continue or skip to not filter results by release date" />
+            <DatePicker
+                x:Name="lowDate"
+                Grid.Row="1"
+                Grid.Column="0"
+                Date="{Binding SelectedMinDate}"
+                DateSelected="lowDate_DateSelected"
+                FontSize="25"
+                HorizontalOptions="Center"
+                MaximumDate="{Binding MaxDate}"
+                MinimumDate="{Binding MinDate}"
+                VerticalOptions="End" />
+            <Label
+                x:Name="DateSeperator"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                FontSize="50"
+                HorizontalOptions="Center"
+                Text="-"
+                VerticalOptions="End"
+                VerticalTextAlignment="Center" />
+            <DatePicker
+                x:Name="highDate"
+                Grid.Row="1"
+                Grid.Column="3"
+                Date="{Binding SelectedMaxDate}"
+                DateSelected="highDate_DateSelected"
+                FontSize="25"
+                HorizontalOptions="Center"
+                MaximumDate="{Binding MaxDate}"
+                MinimumDate="{Binding MinDate}"
+                VerticalOptions="End" />
+            <Label
+                x:Name="afterDate"
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Released After"
+                VerticalOptions="Start"
+                VerticalTextAlignment="Center" />
+            <Label
+                x:Name="beforeDate"
+                Grid.Row="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Released Before"
+                VerticalOptions="Start"
+                VerticalTextAlignment="Center" />
+
+            <Button
+                x:Name="ContinueButton"
+                Grid.Row="3"
+                Grid.Column="3"
+                Padding="10"
+                Clicked="ContinueButton_Clicked"
+                FontSize="20"
+                Text="Continue">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" />
+
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+            <Button
+                x:Name="SkipButton"
+                Grid.Row="3"
+                Grid.Column="0"
+                Padding="10"
+                Clicked="SkipButton_Clicked"
+                FontSize="20"
+                Text="Skip">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" />
+
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

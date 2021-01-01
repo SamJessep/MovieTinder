@@ -20,22 +20,38 @@ namespace MovieTinder.Model
 
         private static Dictionary<int, int> SeenGenres = new Dictionary<int, int>();
 
-        public static async Task<Movie> StartAsync(List<Genre> genres)
+        public static async Task<Movie> StartAsync(List<Genre> genres, Dictionary<string,string> extraParams)
         {
             SelectedGenres = genres;
             var genreSearchResults = await GenreSearchAsync<Movie>(genres);
             return SelectOne(genreSearchResults.results);
         }
 
-        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres, int Page, bool IncludeAdult)
-        {
-            var include_genres = string.Join(",", genres.Select(genre=>genre.id));
-            var ApiClient = new RequestHelper(BASE_URL);
-            var result = await ApiClient.Get($"/discover/{GetMediaString<T>()}?api_key={API_KEY}&language={Language}&include_adult={IncludeAdult}&page={Page}&with_genres={include_genres}");
-            return Parse<Result<T>>(result.Content);
-        }
+        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres, int Page, bool IncludeAdult=false) => await GenreSearchAsync<T>(genres, "page=" + Page, IncludeAdult);
 
         public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres) => await GenreSearchAsync<T>(genres, 1, false);
+
+        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres, Dictionary<string, string> options)
+        {
+            string optionsString = "";
+            foreach (KeyValuePair<string,string> option in options)
+            {
+                optionsString += $"{option.Key}={option.Value}";
+            }
+            return await GenreSearchAsync<T>(genres, optionsString);
+        }
+        public static async Task<Result<T>> GenreSearchAsync<T>(List<Genre> genres, string extraParams, bool includeAdult = false)
+        {
+            var include_genres = string.Join(",", genres.Select(genre => genre.id));
+            var ApiClient = new RequestHelper(BASE_URL);
+            var endpoint = $"/discover/{GetMediaString<T>()}?api_key={API_KEY}&language={Language}&IncludeAdult={includeAdult}&with_genres={include_genres}";
+            if (extraParams != null)
+            {
+                endpoint += "&" + extraParams;
+            }
+            var result = await ApiClient.Get(endpoint);
+            return Parse<Result<T>>(result.Content);
+        }
 
         public static async Task<Result<T>> GetSimilarAsync<T>(int movieID)
         {

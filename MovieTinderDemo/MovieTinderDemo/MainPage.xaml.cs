@@ -15,21 +15,37 @@ namespace MovieTinder
     {
         private int count = 0;
         private List<Genre> selectedGenres;
+        private Dictionary<string, string> searchParams = new Dictionary<string, string>();
         public MainPage(List<Genre> genres)
         {
             selectedGenres = genres;
             InitializeComponent();
             Start();
         }
-        public MainPage()
+        public MainPage(List<Genre> genres, DateTime releasedAfter, DateTime releasedBefore)
         {
+            AddParam("release_date.lte", releasedBefore.ToString("yyyy-mm-dd"));
+            AddParam("release_date.gte", releasedAfter.ToString("yyyy-mm-dd"));
+            selectedGenres = genres;
             InitializeComponent();
             Start();
         }
 
+        private void AddParam(string key, string value)
+        {
+            if (searchParams.ContainsKey(key)) 
+            {
+                searchParams[key] = value;
+            }
+            else
+            {
+                searchParams.Add(key,value);
+            }
+        }
+
         private async Task Start()
         {
-            var firstMovie = await MovieApi.StartAsync(selectedGenres);
+            var firstMovie = await MovieApi.StartAsync(selectedGenres, searchParams);
             ShowMovie(firstMovie);
         }
 
@@ -80,7 +96,7 @@ namespace MovieTinder
 
         async Task SwipeRight()
         {
-            var movie = await MovieApi.DislikeAsync();
+            var movie = await MovieApi.LikeAsync();
             card.BackgroundColor = Color.Green;
             SwipeSideAnimateAsync(1);
             ShowMovie(movie);

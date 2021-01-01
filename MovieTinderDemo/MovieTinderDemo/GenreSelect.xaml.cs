@@ -72,7 +72,7 @@ namespace MovieTinder
 
         private void SubmitClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new MainPage(selectedGenres),true);
+            Navigation.PushAsync(new DateSelect(selectedGenres),true);
         }
 
         private void ClearClicked(object sender, EventArgs e)
