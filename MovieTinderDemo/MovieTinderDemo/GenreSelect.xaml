@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MovieTinder"
-             x:Class="MovieTinder.GenreSelect"
-             Title="Genre Select">
+<ContentPage
+    x:Class="MovieTinder.GenreSelect"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MovieTinder"
+    Title="Genre Select">
     <ContentPage.Resources>
         <Style TargetType="Grid">
             <Setter Property="VisualStateManager.VisualStateGroups">
@@ -12,8 +13,7 @@
                         <VisualState x:Name="Normal" />
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="{Binding Source={x:Static local:Theme.FocusColor}}" />
+                                <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.FocusColor}}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -23,7 +23,11 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding SelectedText, Mode=OneWay}" FontSize="20" BackgroundColor="LightGray" Padding="5, 5,0,5"/>
+            <Label
+                Padding="5,5,0,5"
+                BackgroundColor="LightGray"
+                FontSize="20"
+                Text="{Binding SelectedText, Mode=OneWay}" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -35,83 +39,69 @@
                 </Grid.ColumnDefinitions>
                 <CollectionView
                     x:Name="GenreList"
-                ItemsSource="{Binding Genres}"
-                SelectionMode="Multiple"
-                SelectionChanged="CollectionView_SelectionChanged"
                     Grid.ColumnSpan="2"
-            >
+                    ItemsSource="{Binding Genres}"
+                    SelectionChanged="CollectionView_SelectionChanged"
+                    SelectionMode="Multiple">
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout 
-                        Orientation="Vertical"
-                        ItemSpacing="2" />
+                        <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid x:Name="{Binding name}">
-                                <Label Text="{Binding name}" FontSize="Large" Padding="20, 10"/>
+                                <Label
+                                    Padding="20,10"
+                                    FontSize="Large"
+                                    Text="{Binding name}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <Button
-                x:Name="NextButton"
-                Text="Next"
-                FontSize="20"
-                Clicked="SubmitClicked"
-                Padding="10"
-                Grid.Row="1"
-                Grid.Column="1"
-                IsEnabled="{Binding BottomButtonsEnabled}"
-             >
+                    x:Name="NextButton"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Padding="10"
+                    Clicked="SubmitClicked"
+                    FontSize="20"
+                    IsEnabled="{Binding BottomButtonsEnabled}"
+                    Text="Next">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter 
-                                        Property="BackgroundColor"
-                                        Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" 
-                                    />
-                                    
+                                    <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" />
+
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Pressed">
                                 <VisualState.Setters>
-                                    <Setter 
-                                        Property="BackgroundColor"
-                                        Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" 
-                                    />
+                                    <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
                 </Button>
 
-                <Button 
-                x:Name="ClearButton"
-                Text="Clear"
-                FontSize="20"
-                Clicked="ClearClicked"
-                Padding="10"
-                Grid.Row="1"
-                IsEnabled="{Binding BottomButtonsEnabled}"
-             >
+                <Button
+                    x:Name="ClearButton"
+                    Grid.Row="1"
+                    Padding="10"
+                    Clicked="ClearClicked"
+                    FontSize="20"
+                    IsEnabled="{Binding BottomButtonsEnabled}"
+                    Text="Clear">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter 
-                                        Property="BackgroundColor"
-                                        Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" 
-                                    />
+                                    <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonDefault}}" />
 
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Pressed">
                                 <VisualState.Setters>
-                                    <Setter 
-                                        Property="BackgroundColor"
-                                        Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" 
-                                    />
+                                    <Setter Property="BackgroundColor" Value="{Binding Source={x:Static local:Theme.ButtonPressed}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
