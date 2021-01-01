@@ -1,8 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
-namespace MovieTinderDemo
+namespace MovieTinder
 {
     public partial class App : Application
     {
@@ -10,9 +8,13 @@ namespace MovieTinderDemo
         public static uint ScreenWidth { get; set; }
         public App()
         {
+
+            Device.SetFlags(new string[] { "DragAndDrop_Experimental" });
             InitializeComponent();
+
+            App.Current.Resources["Theme"] = Theme.Instance;
             MainPage = new NavigationPage(new GenreSelect());
-            //MainPage = new MainPage();
+            //MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

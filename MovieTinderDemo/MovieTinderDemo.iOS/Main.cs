@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace MovieTinderDemo.iOS
+namespace MovieTinder.iOS
 {
     public class Application
     {
