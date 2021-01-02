@@ -15,6 +15,8 @@ namespace MovieTinder
 {
     public partial class MainPage : ContentPage
     {
+        private const int TILT_AMOUNT = 25;
+        private const int TILT_SPEED = 150;
         private int count = 0;
         private List<Genre> selectedGenres;
         private Dictionary<string, string> searchParams = new Dictionary<string, string>();
@@ -104,6 +106,27 @@ namespace MovieTinder
             await SwipeAnimateInAsync();
         }
 
+        async Task TiltRight()
+        {
+            await Poster.RotateTo(TILT_AMOUNT, TILT_SPEED);
+            LikeDropOn.FadeTo(100);
+            LikeDropOff.FadeTo(0);
+        }
+        async Task TiltLeft()
+        {
+            await Poster.RotateTo(-TILT_AMOUNT, TILT_SPEED);
+            DislikeDropOn.FadeTo(100);
+            DislikeDropOff.FadeTo(0);
+        }
+        async Task TiltReset()
+        {
+            await Poster.RotateTo(0, TILT_SPEED);
+            LikeDropOn.FadeTo(0);
+            LikeDropOff.FadeTo(100);
+            DislikeDropOn.FadeTo(0);
+            DislikeDropOff.FadeTo(100);
+        }
+
         async Task SwipeAnimateOutAsync(int dir)
         {
             Poster.TranslateTo(500 * dir, Y);
@@ -112,6 +135,7 @@ namespace MovieTinder
         }
         async Task SwipeAnimateInAsync()
         {
+            TiltReset();
             await Poster.ScaleTo(0, 100);
             await Poster.TranslateTo(0, 0, 100);
             //card.BackgroundColor = Color.Transparent;
@@ -132,5 +156,14 @@ namespace MovieTinder
 
         }
 
+        private void Drop_Like(object sender, DropEventArgs e) => SwipeRight();
+
+        private void Drop_Dislike(object sender, DropEventArgs e) => SwipeLeft();
+
+        private void Dislike_DragOver(object sender, DragEventArgs e) => TiltLeft();
+
+        private void Like_DragOver(object sender, DragEventArgs e) => TiltRight();
+        private void Netural_DragOver(object sender, DragEventArgs e) => TiltReset();
+        
     }
 }
