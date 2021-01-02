@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,6 +22,20 @@ namespace MovieTinder.Model.models
         public float vote_count;
 
         public string PosterURL => $"https://image.tmdb.org/t/p/original/{poster_path}";
+        public string GetImageURL(string size, ImageSizes.ImageType type)
+        {
+            var path = "";
+            switch (type)
+            {
+                case ImageSizes.ImageType.Backdrop:
+                    path = backdrop_path;
+                    break;
+                case ImageSizes.ImageType.Poster:
+                    path = poster_path;
+                    break;
+            }
+            return $"https://image.tmdb.org/t/p/{size}/{path}";
+        }
     }
 
 }

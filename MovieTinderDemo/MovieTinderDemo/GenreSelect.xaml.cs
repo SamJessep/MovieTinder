@@ -52,7 +52,7 @@ namespace MovieTinder
         }
         public async Task PopulateGenreList()
         {
-            var result = await MovieApi.GetGenresAsync();
+            var result = await App.MovieAPI.GetGenresAsync();
             Genres = result.genres;
             InitializeComponent();
         }

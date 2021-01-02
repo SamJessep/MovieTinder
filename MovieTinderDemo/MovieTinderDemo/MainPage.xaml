@@ -20,15 +20,14 @@
         <Frame x:Name="card" Grid.Row="1">
             <Image
                 x:Name="Poster"
-                Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg"
-                VerticalOptions="CenterAndExpand">
+                Aspect="AspectFit"
+                Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg">
                 <Image.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
                 </Image.GestureRecognizers>
-
             </Image>
         </Frame>
 

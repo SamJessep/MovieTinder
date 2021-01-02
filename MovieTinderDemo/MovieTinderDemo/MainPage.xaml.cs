@@ -1,4 +1,5 @@
-﻿using MovieTinder.Model;
+﻿using MovieTinder.helpers;
+using MovieTinder.Model;
 using MovieTinder.Model.models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Model.models.ImageSizes;
 
 namespace MovieTinder
 {
@@ -45,13 +47,13 @@ namespace MovieTinder
 
         private async Task Start()
         {
-            var firstMovie = await MovieApi.StartAsync(selectedGenres, searchParams);
+            var firstMovie = await App.MovieAPI.StartAsync(selectedGenres, searchParams);
             ShowMovie(firstMovie);
         }
 
-        void ShowMovie(Movie movie)
+        async Task ShowMovie(Movie movie)
         {
-            Poster.Source = movie.PosterURL;
+            Poster.Source = App.GetImage(movie, ImageType.Poster);
             Title.Text = movie.title;
         }
 
@@ -86,26 +88,31 @@ namespace MovieTinder
 
         async Task SwipeLeft()
         {
-            var movie = await MovieApi.DislikeAsync();
+            var movie = await App.MovieAPI.DislikeAsync();
             //card.BackgroundColor = Color.Red;
-            await SwipeSideAnimateAsync(-1);
-            ShowMovie(movie);
+            await SwipeAnimateOutAsync(-1);
+            await ShowMovie(movie);
+            await SwipeAnimateInAsync();
         }
 
         async Task SwipeRight()
         {
-            var movie = await MovieApi.LikeAsync();
+            var movie = await App.MovieAPI.LikeAsync();
             //card.BackgroundColor = Color.Green;
-            await SwipeSideAnimateAsync(1);
-            ShowMovie(movie);
+            await SwipeAnimateOutAsync(1);
+            await ShowMovie(movie);
+            await SwipeAnimateInAsync();
         }
 
-        async Task SwipeSideAnimateAsync(int dir)
+        async Task SwipeAnimateOutAsync(int dir)
         {
-            Poster.TranslateTo(500*dir, Y);
-            await Poster.RotateTo(100*dir*2);
+            Poster.TranslateTo(500 * dir, Y);
+            await Poster.RotateTo(100 * dir * 2);
             Poster.Rotation = 0;
-            await Poster.ScaleTo(0,100);
+        }
+        async Task SwipeAnimateInAsync()
+        {
+            await Poster.ScaleTo(0, 100);
             await Poster.TranslateTo(0, 0, 100);
             //card.BackgroundColor = Color.Transparent;
             Poster.Opacity = 0;
