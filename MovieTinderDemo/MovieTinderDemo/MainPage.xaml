@@ -2,7 +2,9 @@
 <ContentPage
     x:Class="MovieTinder.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MovieTinder"
+    BackgroundColor="{Binding Source={x:Static local:Theme.BackgroundColor}}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,19 +19,86 @@
             Text="Swipe: 0"
             TextColor="Black" />
 
-        <Frame x:Name="card" Grid.Row="1">
+        <Grid x:Name="card" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <BoxView
+                x:Name="DislikeDropOn"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{Binding Source={x:Static local:Theme.DislikeColor}}">
+                <BoxView.GestureRecognizers>
+                    <DropGestureRecognizer
+                        AllowDrop="True"
+                        DragOver="Dislike_DragOver"
+                        Drop="Drop_Dislike" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+            <BoxView
+                x:Name="LikeDropOn"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{Binding Source={x:Static local:Theme.LikeColor}}">
+                <BoxView.GestureRecognizers>
+                    <DropGestureRecognizer
+                        AllowDrop="True"
+                        DragOver="Like_DragOver"
+                        Drop="Drop_Like" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+            <BoxView
+                x:Name="DislikeDropOff"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{Binding Source={x:Static local:Theme.BackgroundColor}}">
+                <BoxView.GestureRecognizers>
+                    <DropGestureRecognizer
+                        AllowDrop="True"
+                        DragOver="Dislike_DragOver"
+                        Drop="Drop_Dislike" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+            <BoxView
+                x:Name="LikeDropOff"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{Binding Source={x:Static local:Theme.BackgroundColor}}">
+                <BoxView.GestureRecognizers>
+                    <DropGestureRecognizer
+                        AllowDrop="True"
+                        DragOver="Like_DragOver"
+                        Drop="Drop_Like" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+            <BoxView
+                x:Name="NeturalDrop"
+                Grid.Column="1"
+                Grid.ColumnSpan="3">
+                <BoxView.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" DragOver="Netural_DragOver" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
             <Image
                 x:Name="Poster"
+                Grid.Column="1"
+                Grid.ColumnSpan="4"
                 Aspect="AspectFit"
                 Source="https://image.tmdb.org/t/p/w780//8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg">
                 <Image.GestureRecognizers>
+                    <DragGestureRecognizer x:Name="DragGesture" CanDrag="True" />
                     <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
                     <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
                 </Image.GestureRecognizers>
             </Image>
-        </Frame>
+        </Grid>
 
         <Label
             x:Name="Title"

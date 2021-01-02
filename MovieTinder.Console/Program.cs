@@ -15,8 +15,7 @@ namespace MovieTinder.ConsoleTest
         {
             Console.WriteLine("Hello World!");
             uint ScreenWidth = 500;
-            var api = await MovieApi.GetInstance();
-            var BestImageSize = MovieApi.ImageSizes.GetAllBestSizes(ScreenWidth);
+            var api = MovieApi.Instance;
 
             //var genreResult = await MovieApi.GetGenresAsync();
             //foreach (var genre in genreResult.genres)

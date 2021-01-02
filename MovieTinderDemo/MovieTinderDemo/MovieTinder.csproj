@@ -5,6 +5,11 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <AssemblyName>MovieTinder</AssemblyName>
     <RootNamespace>MovieTinder</RootNamespace>
+    <Authors>Sam Jessep</Authors>
+    <PackageProjectUrl>https://github.com/SamJessep/MovieTinder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SamJessep/MovieTinder</RepositoryUrl>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
