@@ -3,6 +3,7 @@ App to help choose a movie, tinder style
 ## Todo
 - Fix Recommendation algorithm
 - Update UI for selecting multiple genres
-- Allow inputing a release data range target
-- Update Model to not be static
-- Change card swipe to drag & drop?
+- Implement new Like/Dislike alorithm
+- Fix the intro screen to go into swipe straight away
+- reset model each time, reset seen movies
+- implement swipe up for more details
