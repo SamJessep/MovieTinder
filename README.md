@@ -1,5 +1,7 @@
 # MovieTinder
 App to help choose a movie, tinder style
+## Demo
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/45475939/115138185-cb2d5000-a07e-11eb-80be-3784c9c86762.gif)
 ## Todo
 - Fix Recommendation algorithm
 - Update UI for selecting multiple genres
